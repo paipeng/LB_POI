@@ -1,0 +1,65 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "mysql"
+  },
+  "AccessToken": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "mysql",
+    "public": false
+  },
+  "location": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "photo": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "poi": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "AmUser": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "container": {
+    "dataSource": "local_storage",
+    "public": true
+  },
+  "application": {
+        "public": true,
+        "dataSource": "mongodb"
+    },
+    "installation": {
+        "public": true,
+        "dataSource": "mongodb"
+    },
+    "notification": {
+        "public": true,
+        "dataSource": "mongodb"
+    },
+  "push": {
+    "dataSource": "push",
+    "public": true
+  }
+}

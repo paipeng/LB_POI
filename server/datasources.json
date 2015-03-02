@@ -1,0 +1,34 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mysql": {
+    "host": "localhost",
+    "port": 3306,
+    "database": "loopback-server",
+    "username": "node_am",
+    "password": "node_2015",
+    "name": "mysql",
+    "connector": "mysql",
+    "createDatabase": true
+  },
+  "local_storage": {
+    "name": "local_storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "/var/loopback_storage"
+  },
+  "mongodb": {
+    "defaultForType": "db",
+    "connector": "mongodb",
+      "url": "mongodb://loopback:test123@127.0.0.1/loopback"
+  },
+  "push": {
+    "name": "push",
+    "connector": "loopback-component-push",
+    "installation": "installation",
+    "notification": "notification",
+    "application": "application"
+  }
+}
