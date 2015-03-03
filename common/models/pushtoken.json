@@ -1,12 +1,16 @@
 {
   "name": "pushtoken",
   "plural": "PushToken",
-  "base": "Model",
+  "base": "PersistedModel",
   "idInjection": true,
   "properties": {
     "token": {
       "type": "string",
-      "required": true
+      "required": true,
+      "index": {
+        "unique": true
+      },
+      "length": 128
     }
   },
   "validations": [],

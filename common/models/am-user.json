@@ -10,6 +10,11 @@
       "type": "hasMany",
       "model": "pushtoken",
       "foreignKey": ""
+    },
+    "pois": {
+      "type": "hasMany",
+      "model": "poi",
+      "foreignKey": ""
     }
   },
   "acls": [],
