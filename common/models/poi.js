@@ -1,15 +1,36 @@
 module.exports = function(Poi) {
     // model hooks
+/*
     Poi.beforeCreate = function(next, modelInstance) {
         console.log("Poi beforeCreate");
         console.log("token: " + modelInstance.token);
         modelInstance.created = Date.now();
         next();
     };
+*/
+Poi.observe('before save', function updateTimestamp(ctx, next) {
+  console.log("Poi before save observe");
+  if (ctx.instance) {
+        console.log("token: " + ctx.instance.token);
+        ctx.instance.created = Date.now();
+  } else {
+        console.log("data token: " + ctx.data.token);
+        ctx.data.created = Date.now();
+  }
+  next();
+});
 
-    Poi.afterCreate = function(next) {
-        console.log("Poi afterCreate");
-        console.log("token: " + this.token);
+    //Poi.afterCreate = function(next) {
+    Poi.observe('after save', function updateTimestamp(ctx, next) {
+        console.log("Poi after save");
+        if (ctx.instance) {
+            console.log("saved " + JSON.stringify(ctx.Model));
+            console.log("token: " + ctx.instance.token);
+        } else {
+            console.log('Updated %s matching %j',
+                ctx.Model.pluralModelName,
+                ctx.where);
+        }
         var pushServer = require('../../server/push');
         //pushServer.getPushUsers();
 
@@ -30,12 +51,12 @@ module.exports = function(Poi) {
         push.ios.payload.push = push.android.data.push;
 
 
-        var push_json = JSON.stringify(push);
+        //var push_json = JSON.stringify(push);
         //console.log(" push_json " + push_json);
         //pushServer.sendPushToAll(push_json);
-        pushServer.sendPushExceptMe(this.token, push_json);
+        //pushServer.sendPushExceptMe(this.token, push_json);
         next();
-    };
+    });
 
     // remote methods
     Poi.echo = function(msg, cb) {

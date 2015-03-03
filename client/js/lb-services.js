@@ -1,6 +1,6 @@
 (function(window, angular, undefined) {'use strict';
 
-var urlBase = "/api";
+var urlBase = "http://shared.canobus.com:8088/api";
 var authHeader = 'authorization';
 
 /**
@@ -737,7 +737,7 @@ module.factory(
          *
          *  - `token` – `{string}` - 
          *
-         *  - `redirect` – `{string}` - 
+         *  - `redirect` – `{string=}` - 
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -2045,12 +2045,6 @@ module.factory(
       { 'id': '@id' },
       {
 
-        // INTERNAL. Use Poi.amUser() instead.
-        "prototype$__get__amUser": {
-          url: urlBase + "/pois/:id/amUser",
-          method: "GET"
-        },
-
         /**
          * @ngdoc method
          * @name lbServices.Poi#create
@@ -2391,6 +2385,88 @@ module.factory(
           url: urlBase + "/pois/:id",
           method: "PUT"
         },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Poi#echo
+         * @methodOf lbServices.Poi
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `msg` – `{string=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `echo` – `{string=}` - 
+         */
+        "echo": {
+          url: urlBase + "/pois/echo",
+          method: "POST"
+        },
+
+        // INTERNAL. Use AmUser.pois.findById() instead.
+        "::findById::AmUser::pois": {
+          url: urlBase + "/AmUsers/:id/pois/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pois.destroyById() instead.
+        "::destroyById::AmUser::pois": {
+          url: urlBase + "/AmUsers/:id/pois/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pois.updateById() instead.
+        "::updateById::AmUser::pois": {
+          url: urlBase + "/AmUsers/:id/pois/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use AmUser.pois() instead.
+        "::get::AmUser::pois": {
+          isArray: true,
+          url: urlBase + "/AmUsers/:id/pois",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pois.create() instead.
+        "::create::AmUser::pois": {
+          url: urlBase + "/AmUsers/:id/pois",
+          method: "POST"
+        },
+
+        // INTERNAL. Use AmUser.pois.destroyAll() instead.
+        "::delete::AmUser::pois": {
+          url: urlBase + "/AmUsers/:id/pois",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pois.count() instead.
+        "::count::AmUser::pois": {
+          url: urlBase + "/AmUsers/:id/pois/count",
+          method: "GET"
+        },
       }
     );
 
@@ -2528,42 +2604,6 @@ module.factory(
     R.modelName = "Poi";
 
 
-        /**
-         * @ngdoc method
-         * @name lbServices.Poi#amUser
-         * @methodOf lbServices.Poi
-         *
-         * @description
-         *
-         * Fetches belongsTo relation amUser
-         *
-         * @param {Object=} parameters Request parameters.
-         *
-         *  - `id` – `{*}` - PersistedModel id
-         *
-         *  - `refresh` – `{boolean=}` - 
-         *
-         * @param {function(Object,Object)=} successCb
-         *   Success callback with two arguments: `value`, `responseHeaders`.
-         *
-         * @param {function(Object)=} errorCb Error callback with one argument:
-         *   `httpResponse`.
-         *
-         * @returns {Object} An empty reference that will be
-         *   populated with the actual data once the response is returned
-         *   from the server.
-         *
-         * <em>
-         * (The remote method definition does not provide any description.
-         * This usually means the response is a `AmUser` object.)
-         * </em>
-         */
-        R.amUser = function() {
-          var TargetResource = $injector.get("AmUser");
-          var action = TargetResource["::get::poi::amUser"];
-          return action.apply(R, arguments);
-        };
-
     return R;
   }]);
 
@@ -2591,6 +2631,42 @@ module.factory(
       urlBase + "/AmUsers/:id",
       { 'id': '@id' },
       {
+
+        // INTERNAL. Use AmUser.pois.findById() instead.
+        "prototype$__findById__pois": {
+          url: urlBase + "/AmUsers/:id/pois/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pois.destroyById() instead.
+        "prototype$__destroyById__pois": {
+          url: urlBase + "/AmUsers/:id/pois/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pois.updateById() instead.
+        "prototype$__updateById__pois": {
+          url: urlBase + "/AmUsers/:id/pois/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.findById() instead.
+        "prototype$__findById__pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.destroyById() instead.
+        "prototype$__destroyById__pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.updateById() instead.
+        "prototype$__updateById__pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/:fk",
+          method: "PUT"
+        },
 
         /**
          * @ngdoc method
@@ -2696,6 +2772,56 @@ module.factory(
         "prototype$__updateById__accessTokens": {
           url: urlBase + "/AmUsers/:id/accessTokens/:fk",
           method: "PUT"
+        },
+
+        // INTERNAL. Use AmUser.pois() instead.
+        "prototype$__get__pois": {
+          isArray: true,
+          url: urlBase + "/AmUsers/:id/pois",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pois.create() instead.
+        "prototype$__create__pois": {
+          url: urlBase + "/AmUsers/:id/pois",
+          method: "POST"
+        },
+
+        // INTERNAL. Use AmUser.pois.destroyAll() instead.
+        "prototype$__delete__pois": {
+          url: urlBase + "/AmUsers/:id/pois",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pois.count() instead.
+        "prototype$__count__pois": {
+          url: urlBase + "/AmUsers/:id/pois/count",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens() instead.
+        "prototype$__get__pushtokens": {
+          isArray: true,
+          url: urlBase + "/AmUsers/:id/pushtokens",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.create() instead.
+        "prototype$__create__pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens",
+          method: "POST"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.destroyAll() instead.
+        "prototype$__delete__pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.count() instead.
+        "prototype$__count__pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/count",
+          method: "GET"
         },
 
         /**
@@ -3289,7 +3415,7 @@ module.factory(
          *
          *  - `token` – `{string}` - 
          *
-         *  - `redirect` – `{string}` - 
+         *  - `redirect` – `{string=}` - 
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -3341,12 +3467,6 @@ module.factory(
         "resetPassword": {
           url: urlBase + "/AmUsers/reset",
           method: "POST"
-        },
-
-        // INTERNAL. Use Poi.amUser() instead.
-        "::get::poi::amUser": {
-          url: urlBase + "/pois/:id/amUser",
-          method: "GET"
         },
 
         /**
@@ -3563,6 +3683,1456 @@ module.factory(
     * i.e. `AmUser`.
     */
     R.modelName = "AmUser";
+
+    /**
+     * @ngdoc object
+     * @name lbServices.AmUser.pois
+     * @header lbServices.AmUser.pois
+     * @object
+     * @description
+     *
+     * The object `AmUser.pois` groups methods
+     * manipulating `Poi` instances related to `AmUser`.
+     *
+     * Call {@link lbServices.AmUser#pois AmUser.pois()}
+     * to query all related instances.
+     */
+
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser#pois
+         * @methodOf lbServices.AmUser
+         *
+         * @description
+         *
+         * Queries pois of AmUser.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `filter` – `{object=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Poi` object.)
+         * </em>
+         */
+        R.pois = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::get::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pois#count
+         * @methodOf lbServices.AmUser.pois
+         *
+         * @description
+         *
+         * Counts pois of AmUser.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        R.pois.count = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::count::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pois#create
+         * @methodOf lbServices.AmUser.pois
+         *
+         * @description
+         *
+         * Creates a new instance in pois of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Poi` object.)
+         * </em>
+         */
+        R.pois.create = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::create::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pois#destroyAll
+         * @methodOf lbServices.AmUser.pois
+         *
+         * @description
+         *
+         * Deletes all pois of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.pois.destroyAll = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::delete::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pois#destroyById
+         * @methodOf lbServices.AmUser.pois
+         *
+         * @description
+         *
+         * Delete a related item by id for pois
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for pois
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.pois.destroyById = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::destroyById::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pois#findById
+         * @methodOf lbServices.AmUser.pois
+         *
+         * @description
+         *
+         * Find a related item by id for pois
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for pois
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Poi` object.)
+         * </em>
+         */
+        R.pois.findById = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::findById::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pois#updateById
+         * @methodOf lbServices.AmUser.pois
+         *
+         * @description
+         *
+         * Update a related item by id for pois
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for pois
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Poi` object.)
+         * </em>
+         */
+        R.pois.updateById = function() {
+          var TargetResource = $injector.get("Poi");
+          var action = TargetResource["::updateById::AmUser::pois"];
+          return action.apply(R, arguments);
+        };
+    /**
+     * @ngdoc object
+     * @name lbServices.AmUser.pushtokens
+     * @header lbServices.AmUser.pushtokens
+     * @object
+     * @description
+     *
+     * The object `AmUser.pushtokens` groups methods
+     * manipulating `Pushtoken` instances related to `AmUser`.
+     *
+     * Call {@link lbServices.AmUser#pushtokens AmUser.pushtokens()}
+     * to query all related instances.
+     */
+
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser#pushtokens
+         * @methodOf lbServices.AmUser
+         *
+         * @description
+         *
+         * Queries pushtokens of AmUser.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `filter` – `{object=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        R.pushtokens = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::get::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pushtokens#count
+         * @methodOf lbServices.AmUser.pushtokens
+         *
+         * @description
+         *
+         * Counts pushtokens of AmUser.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        R.pushtokens.count = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::count::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pushtokens#create
+         * @methodOf lbServices.AmUser.pushtokens
+         *
+         * @description
+         *
+         * Creates a new instance in pushtokens of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        R.pushtokens.create = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::create::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pushtokens#destroyAll
+         * @methodOf lbServices.AmUser.pushtokens
+         *
+         * @description
+         *
+         * Deletes all pushtokens of this model.
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.pushtokens.destroyAll = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::delete::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pushtokens#destroyById
+         * @methodOf lbServices.AmUser.pushtokens
+         *
+         * @description
+         *
+         * Delete a related item by id for pushtokens
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for pushtokens
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R.pushtokens.destroyById = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::destroyById::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pushtokens#findById
+         * @methodOf lbServices.AmUser.pushtokens
+         *
+         * @description
+         *
+         * Find a related item by id for pushtokens
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for pushtokens
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        R.pushtokens.findById = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::findById::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.AmUser.pushtokens#updateById
+         * @methodOf lbServices.AmUser.pushtokens
+         *
+         * @description
+         *
+         * Update a related item by id for pushtokens
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `fk` – `{*}` - Foreign key for pushtokens
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        R.pushtokens.updateById = function() {
+          var TargetResource = $injector.get("Pushtoken");
+          var action = TargetResource["::updateById::AmUser::pushtokens"];
+          return action.apply(R, arguments);
+        };
+
+    return R;
+  }]);
+
+/**
+ * @ngdoc object
+ * @name lbServices.Container
+ * @header lbServices.Container
+ * @object
+ *
+ * @description
+ *
+ * A $resource object for interacting with the `Container` model.
+ *
+ * ## Example
+ *
+ * See
+ * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
+ * for an example of using this object.
+ *
+ */
+module.factory(
+  "Container",
+  ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
+    var R = Resource(
+      urlBase + "/containers/:id",
+      { 'id': '@id' },
+      {
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#getContainers
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Container` object.)
+         * </em>
+         */
+        "getContainers": {
+          isArray: true,
+          url: urlBase + "/containers",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#createContainer
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Container` object.)
+         * </em>
+         */
+        "createContainer": {
+          url: urlBase + "/containers",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#destroyContainer
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `container` – `{string=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `` – `{undefined=}` - 
+         */
+        "destroyContainer": {
+          url: urlBase + "/containers/:container",
+          method: "DELETE"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#getContainer
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `container` – `{string=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Container` object.)
+         * </em>
+         */
+        "getContainer": {
+          url: urlBase + "/containers/:container",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#getFiles
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `container` – `{string=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Container` object.)
+         * </em>
+         */
+        "getFiles": {
+          isArray: true,
+          url: urlBase + "/containers/:container/files",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#getFile
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `container` – `{string=}` - 
+         *
+         *  - `file` – `{string=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Container` object.)
+         * </em>
+         */
+        "getFile": {
+          url: urlBase + "/containers/:container/files/:file",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#removeFile
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `container` – `{string=}` - 
+         *
+         *  - `file` – `{string=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `` – `{undefined=}` - 
+         */
+        "removeFile": {
+          url: urlBase + "/containers/:container/files/:file",
+          method: "DELETE"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#upload
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `req` – `{object=}` - 
+         *
+         *  - `res` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `result` – `{object=}` - 
+         */
+        "upload": {
+          url: urlBase + "/containers/:container/upload",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Container#download
+         * @methodOf lbServices.Container
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `container` – `{string=}` - 
+         *
+         *  - `file` – `{string=}` - 
+         *
+         *  - `res` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        "download": {
+          url: urlBase + "/containers/:container/download/:file",
+          method: "GET"
+        },
+      }
+    );
+
+
+
+
+    /**
+    * @ngdoc property
+    * @name lbServices.Container#modelName
+    * @propertyOf lbServices.Container
+    * @description
+    * The name of the model represented by this $resource,
+    * i.e. `Container`.
+    */
+    R.modelName = "Container";
+
+
+    return R;
+  }]);
+
+/**
+ * @ngdoc object
+ * @name lbServices.Pushtoken
+ * @header lbServices.Pushtoken
+ * @object
+ *
+ * @description
+ *
+ * A $resource object for interacting with the `Pushtoken` model.
+ *
+ * ## Example
+ *
+ * See
+ * {@link http://docs.angularjs.org/api/ngResource.$resource#example $resource}
+ * for an example of using this object.
+ *
+ */
+module.factory(
+  "Pushtoken",
+  ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
+    var R = Resource(
+      urlBase + "/PushToken/:id",
+      { 'id': '@id' },
+      {
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#create
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Create a new instance of the model and persist it into the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        "create": {
+          url: urlBase + "/PushToken",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#upsert
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        "upsert": {
+          url: urlBase + "/PushToken",
+          method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#exists
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Check whether a model instance exists in the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `exists` – `{boolean=}` - 
+         */
+        "exists": {
+          url: urlBase + "/PushToken/:id/exists",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#findById
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Find a model instance by id from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        "findById": {
+          url: urlBase + "/PushToken/:id",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#find
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Find all instances of the model matched by filter from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, orderBy, offset, and limit
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        "find": {
+          isArray: true,
+          url: urlBase + "/PushToken",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#findOne
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Find first instance of the model matched by filter from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `filter` – `{object=}` - Filter defining fields, where, orderBy, offset, and limit
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        "findOne": {
+          url: urlBase + "/PushToken/findOne",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#updateAll
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        "updateAll": {
+          url: urlBase + "/PushToken/update",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#deleteById
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        "deleteById": {
+          url: urlBase + "/PushToken/:id",
+          method: "DELETE"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#count
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Count instances of the model matched by where from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `count` – `{number=}` - 
+         */
+        "count": {
+          url: urlBase + "/PushToken/count",
+          method: "GET"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#prototype$updateAttributes
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Update attributes for a model instance and persist it into the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        "prototype$updateAttributes": {
+          url: urlBase + "/PushToken/:id",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.findById() instead.
+        "::findById::AmUser::pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/:fk",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.destroyById() instead.
+        "::destroyById::AmUser::pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/:fk",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.updateById() instead.
+        "::updateById::AmUser::pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/:fk",
+          method: "PUT"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens() instead.
+        "::get::AmUser::pushtokens": {
+          isArray: true,
+          url: urlBase + "/AmUsers/:id/pushtokens",
+          method: "GET"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.create() instead.
+        "::create::AmUser::pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens",
+          method: "POST"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.destroyAll() instead.
+        "::delete::AmUser::pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens",
+          method: "DELETE"
+        },
+
+        // INTERNAL. Use AmUser.pushtokens.count() instead.
+        "::count::AmUser::pushtokens": {
+          url: urlBase + "/AmUsers/:id/pushtokens/count",
+          method: "GET"
+        },
+      }
+    );
+
+
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#updateOrCreate
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Update an existing model instance or insert a new one into the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Pushtoken` object.)
+         * </em>
+         */
+        R["updateOrCreate"] = R["upsert"];
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#update
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Update instances of the model matched by where from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `where` – `{object=}` - Criteria to match model instances
+         *
+         * @param {Object} postData Request data.
+         *
+         * This method expects a subset of model properties as request parameters.
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R["update"] = R["updateAll"];
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#destroyById
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R["destroyById"] = R["deleteById"];
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#removeById
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Delete a model instance by id from the data source
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - Model id
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * This method returns no data.
+         */
+        R["removeById"] = R["deleteById"];
+
+
+    /**
+    * @ngdoc property
+    * @name lbServices.Pushtoken#modelName
+    * @propertyOf lbServices.Pushtoken
+    * @description
+    * The name of the model represented by this $resource,
+    * i.e. `Pushtoken`.
+    */
+    R.modelName = "Pushtoken";
 
 
     return R;

@@ -23,6 +23,10 @@ function initHttp(path, push_json) {
         return optionspost;
 }
 
+function sendPush(users, push_json) {
+    console.log("sendPush to " + JSON.stringify(users));
+}
+
 
 module.exports = {
     sendPushToAll: function(push_json) {
@@ -60,14 +64,14 @@ module.exports = {
                 var send_to = [];
                 for (var i = 0; i < users.users.length; i++) {
                     console.log("index " + i + " element " + users.users[i]);
-                    if (users.users[i] === me.toString()) {
+                    if (me && users.users[i] === me.toString()) {
                         console.log("found me, don't send to myself " + me);
                     } else {
                         send_to.push(users.users[i]);
                     }
                 }
                 if (send_to.length > 0) {
-                    sendPushToUsers(send_to, push_json);
+                    sendPush(send_to, push_json);
                 } else {
                     console.log("there is no available token for sending");
                 }
