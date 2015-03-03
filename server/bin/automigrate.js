@@ -143,7 +143,7 @@ dataSource.automigrate('AmUser', function(err) {
 //  dataSource.disconnect();
 });
 
-dataSource.automigrate('PushToken', function(err) {
+dataSource.automigrate('pushtoken', function(err) {
     if (err) {
         console.log(err);
     }
