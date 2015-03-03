@@ -46,22 +46,6 @@
     "dataSource": "local_storage",
     "public": true
   },
-  "application": {
-    "dataSource": "mongodb",
-    "public": true
-  },
-  "installation": {
-    "dataSource": "mongodb",
-    "public": true
-  },
-  "notification": {
-    "dataSource": "mongodb",
-    "public": true
-  },
-  "push": {
-    "dataSource": "push",
-    "public": true
-  },
   "pushtoken": {
     "dataSource": "mysql",
     "public": true
