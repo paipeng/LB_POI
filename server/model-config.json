@@ -47,19 +47,23 @@
     "public": true
   },
   "application": {
-        "public": true,
-        "dataSource": "mongodb"
-    },
-    "installation": {
-        "public": true,
-        "dataSource": "mongodb"
-    },
-    "notification": {
-        "public": true,
-        "dataSource": "mongodb"
-    },
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "installation": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "notification": {
+    "dataSource": "mongodb",
+    "public": true
+  },
   "push": {
     "dataSource": "push",
+    "public": true
+  },
+  "pushtoken": {
+    "dataSource": "mysql",
     "public": true
   }
 }

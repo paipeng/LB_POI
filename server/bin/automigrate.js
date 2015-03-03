@@ -142,6 +142,12 @@ dataSource.automigrate('AmUser', function(err) {
   console.log('User done');
 //  dataSource.disconnect();
 });
+
+dataSource.automigrate('PushToken', function(err) {
+    if (err) {
+        console.log(err);
+    }
+});
 dataSource.automigrate('poi', function(err) {
   if (err) console.log(err);
 

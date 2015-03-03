@@ -20,9 +20,10 @@
     "root": "/var/loopback_storage"
   },
   "mongodb": {
+    "url": "mongodb://loopback:test123@127.0.0.1/loopback",
+    "name": "mongodb",
     "defaultForType": "db",
-    "connector": "mongodb",
-      "url": "mongodb://loopback:test123@127.0.0.1/loopback"
+    "connector": "mongodb"
   },
   "push": {
     "name": "push",

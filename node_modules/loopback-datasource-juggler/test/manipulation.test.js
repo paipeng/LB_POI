@@ -4,6 +4,8 @@ var should = require('./init.js');
 var db, Person;
 var ValidationError = require('..').ValidationError;
 
+var UUID_REGEXP = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 describe('manipulation', function () {
 
   before(function (done) {
@@ -15,7 +17,7 @@ describe('manipulation', function () {
       married: Boolean,
       age: {type: Number, index: true},
       dob: Date,
-      createdAt: {type: Number, default: Date.now}
+      createdAt: {type: Date, default: Date}
     }, { forceId: true });
 
     db.automigrate(done);
@@ -25,11 +27,11 @@ describe('manipulation', function () {
   // A simplified implementation of LoopBack's User model
   // to reproduce problems related to properties with dynamic setters
   // For the purpose of the tests, we use a counter instead of a hash fn.
-  var StubUser, stubPasswordCounter;
+  var StubUser;
   before(function setupStubUserModel(done) {
     StubUser = db.createModel('StubUser', { password: String }, { forceId: true });
     StubUser.setter.password = function(plain) {
-      this.$password = plain + '-' + (++stubPasswordCounter);
+      this.$password = plain + '-' + plain.toUpperCase();
     };
     db.automigrate('StubUser', done);
   });
@@ -50,7 +52,7 @@ describe('manipulation', function () {
         should.not.exist(err);
         should.exist(p);
         Person.findById(p.id, function (err, person) {
-          person.id.should.equal(p.id);
+          person.id.should.eql(p.id);
           person.name.should.equal('Anatoliy');
           done();
         });
@@ -122,7 +124,7 @@ describe('manipulation', function () {
         should.exist(p);
         should.not.exists(p.name);
         Person.findById(p.id, function (err, person) {
-          person.id.should.equal(p.id);
+          person.id.should.eql(p.id);
           should.not.exists(person.name);
           done();
         });
@@ -191,6 +193,31 @@ describe('manipulation', function () {
         ps[0].should.be.eql({id: 'a', name: 'A'});
         done();
       });
+    });
+
+    it('should preserve properties with "undefined" value', function(done) {
+      Person.create(
+        { name: 'a-name', gender: undefined },
+        function(err, created) {
+          if (err) return done(err);
+          created.toObject().should.have.properties({
+            id: created.id,
+            name: 'a-name',
+            gender: undefined
+          });
+
+          Person.findById(created.id, function(err, found) {
+            if (err) return done(err);
+            var result = found.toObject();
+            result.should.have.properties({
+              id: created.id,
+              name: 'a-name'
+            });
+            // The gender can be null from a RDB
+            should.equal(result.gender, null);
+            done();
+          });
+        });
     });
   });
 
@@ -261,10 +288,10 @@ describe('manipulation', function () {
         created.password = 'bar';
         created.save(function(err, saved) {
           if (err) return done(err);
-          saved.password.should.equal('bar-2');
+          saved.password.should.equal('bar-BAR');
           StubUser.findById(created.id, function(err, found) {
             if (err) return done(err);
-            found.password.should.equal('bar-2');
+            found.password.should.equal('bar-BAR');
             done();
           });
         });
@@ -323,12 +350,12 @@ describe('manipulation', function () {
 
   describe('updateOrCreate', function() {
     it('should preserve properties with dynamic setters on create', function(done) {
-      StubUser.updateOrCreate({ id: 'newid', password: 'foo' }, function(err, created) {
+      StubUser.updateOrCreate({ password: 'foo' }, function(err, created) {
         if (err) return done(err);
-        created.password.should.equal('foo-1');
+        created.password.should.equal('foo-FOO');
         StubUser.findById(created.id, function(err, found) {
           if (err) return done(err);
-          found.password.should.equal('foo-1');
+          found.password.should.equal('foo-FOO');
           done();
         });
       });
@@ -340,14 +367,40 @@ describe('manipulation', function () {
         var data = { id: created.id, password: 'bar' };
         StubUser.updateOrCreate(data, function(err, updated) {
           if (err) return done(err);
-          updated.password.should.equal('bar-2');
+          updated.password.should.equal('bar-BAR');
           StubUser.findById(created.id, function(err, found) {
             if (err) return done(err);
-            found.password.should.equal('bar-2');
+            found.password.should.equal('bar-BAR');
             done();
           });
         });
       });
+    });
+
+    it('should preserve properties with "undefined" value', function(done) {
+      Person.create(
+        { name: 'a-name', gender: undefined },
+        function(err, instance) {
+          if (err) return done(err);
+          instance.toObject().should.have.properties({
+            id: instance.id,
+            name: 'a-name',
+            gender: undefined
+          });
+
+          Person.updateOrCreate(
+            { id: instance.id, name: 'updated name' },
+            function(err, updated) {
+              if (err) return done(err);
+              var result = updated.toObject();
+              result.should.have.properties({
+                id: instance.id,
+                name: 'updated name'
+              });
+              should.equal(result.gender, null);
+              done();
+            });
+        });
     });
   });
 
@@ -394,10 +447,188 @@ describe('manipulation', function () {
       person.isNewRecord().should.be.true;
     });
 
+    describe('Date $now function', function() {
+      var CustomModel;
+
+      before(function(done) {
+        CustomModel = db.define('CustomModel1', {
+          createdAt: { type: Date, default: '$now' }
+        });
+        db.automigrate('CustomModel1', done);
+      });
+
+      it('should report current date as default value for date property',
+        function(done) {
+          var now = Date.now();
+
+          var myCustomModel = CustomModel.create(function(err, m) {
+            should.not.exists(err);
+            m.createdAt.should.be.instanceOf(Date);
+            (m.createdAt >= now).should.be.true;
+          });
+
+          done();
+        });
+    });
+
+    describe('Date $now function', function() {
+      var CustomModel;
+
+      before(function(done) {
+        CustomModel = db.define('CustomModel2', {
+          now: { type: String, default: '$now' }
+        });
+        db.automigrate('CustomModel2', done);
+      });
+
+      it('should report \'$now\' as default value for string property',
+        function(done) {
+          var myCustomModel = CustomModel.create(function(err, m) {
+            should.not.exists(err);
+            m.now.should.be.instanceOf(String);
+            m.now.should.equal('$now');
+          });
+
+          done();
+        });
+    });
+
+    describe('now defaultFn', function() {
+      var CustomModel;
+
+      before(function(done) {
+        CustomModel = db.define('CustomModel3', {
+          now: { type: Date, defaultFn: 'now' }
+        });
+        db.automigrate('CustomModel3', done);
+      });
+
+      it('should generate current time when "defaultFn" is "now"',
+        function(done) {
+          var now = Date.now();
+          var inst = CustomModel.create(function(err, m) {
+            should.not.exists(err);
+            m.now.should.be.instanceOf(Date);
+            m.now.should.be.within(now, now + 200);
+            done();
+          });
+        });
+    });
+
+    describe('guid defaultFn', function() {
+      var CustomModel;
+
+      before(function(done) {
+        CustomModel = db.define('CustomModel4', {
+          guid: { type: String, defaultFn: 'guid' }
+        });
+        db.automigrate('CustomModel4', done);
+      });
+
+      it('should generate a new id when "defaultFn" is "guid"', function(done) {
+        var inst = CustomModel.create(function(err, m) {
+          should.not.exists(err);
+          m.guid.should.match(UUID_REGEXP);
+          done();
+        });
+      });
+    });
+
+    describe('uuid defaultFn', function() {
+      var CustomModel;
+
+      before(function(done) {
+        CustomModel = db.define('CustomModel5', {
+          guid: { type: String, defaultFn: 'uuid' }
+        });
+        db.automigrate('CustomModel5', done);
+      });
+
+      it('should generate a new id when "defaultfn" is "uuid"', function(done) {
+        var inst = CustomModel.create(function(err, m) {
+          should.not.exists(err);
+          m.guid.should.match(UUID_REGEXP);
+          done();
+        });
+      });
+    });
+
     // it('should work when constructor called as function', function() {
     //     var p = Person({name: 'John Resig'});
     //     p.should.be.an.instanceOf(Person);
     //     p.name.should.equal('John Resig');
     // });
+  });
+
+  describe('property value coercion', function () {
+    it('should coerce boolean types properly', function() {
+      var p1 = new Person({name: 'John', married: 'false'});
+      p1.married.should.equal(false);
+
+      p1 = new Person({name: 'John', married: 'true'});
+      p1.married.should.equal(true);
+
+      p1 = new Person({name: 'John', married: '1'});
+      p1.married.should.equal(true);
+
+      p1 = new Person({name: 'John', married: '0'});
+      p1.married.should.equal(false);
+
+      p1 = new Person({name: 'John', married: true});
+      p1.married.should.equal(true);
+
+      p1 = new Person({name: 'John', married: false});
+      p1.married.should.equal(false);
+
+      p1 = new Person({name: 'John', married: 'null'});
+      p1.married.should.equal(true);
+
+      p1 = new Person({name: 'John', married: ''});
+      p1.married.should.equal(false);
+
+      p1 = new Person({name: 'John', married: 'X'});
+      p1.married.should.equal(true);
+
+      p1 = new Person({name: 'John', married: 0});
+      p1.married.should.equal(false);
+
+      p1 = new Person({name: 'John', married: 1});
+      p1.married.should.equal(true);
+
+      p1 = new Person({name: 'John', married: null});
+      p1.should.have.property('married', null);
+
+      p1 = new Person({name: 'John', married: undefined});
+      p1.should.have.property('married', undefined);
+
+    });
+
+    it('should coerce boolean types properly', function() {
+      var p1 = new Person({name: 'John', dob: '2/1/2015'});
+      p1.dob.should.eql(new Date('2/1/2015'));
+
+      p1 = new Person({name: 'John', dob: '2/1/2015'});
+      p1.dob.should.eql(new Date('2/1/2015'));
+
+      p1 = new Person({name: 'John', dob: '12'});
+      p1.dob.should.eql(new Date('12'));
+
+      p1 = new Person({name: 'John', dob: 12});
+      p1.dob.should.eql(new Date(12));
+
+      p1 = new Person({name: 'John', dob: null});
+      p1.should.have.property('dob', null);
+
+      p1 = new Person({name: 'John', dob: undefined});
+      p1.should.have.property('dob', undefined);
+
+      try {
+        p1 = new Person({name: 'John', dob: 'X'});
+        throw new Error('new Person() should have thrown');
+      } catch (e) {
+        e.should.be.eql(new Error('Invalid date: X'));
+      }
+    });
+
   });
 });

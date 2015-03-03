@@ -5,7 +5,13 @@
   "idInjection": true,
   "properties": {},
   "validations": [],
-  "relations": {},
+  "relations": {
+    "pushtokens": {
+      "type": "hasMany",
+      "model": "pushtoken",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": []
 }
