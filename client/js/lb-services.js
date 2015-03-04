@@ -1,6 +1,6 @@
 (function(window, angular, undefined) {'use strict';
 
-var urlBase = "/api";
+var urlBase = "http://shared.canobus.com:8088/api";
 var authHeader = 'authorization';
 
 /**
