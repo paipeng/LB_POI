@@ -1,3 +1,4 @@
+
 module.exports = function(AmUser) {
     // model hooks
 /*
@@ -35,6 +36,26 @@ AmUser.observe('access', function updateTimestamp(ctx, next) {
         console.log("AmUser after Remote login " + JSON.stringify(ctx.result));
         console.log("token: " + JSON.stringify(ctx.req.body));
         console.log("model : " + JSON.stringify(affectedModelInstance));
+        AmUser.getApp(function(err, app) {
+            var models = app.models();
+            models.forEach(function(Model) {
+                console.log(Model.modelName);
+                if (Model.modelName === 'pushtoken') {
+                    var pushtoken = Model;
+        var token = {
+            token: ctx.req.body.token,
+            amUserId: affectedModelInstance.userId}
+        console.log("token to add " + JSON.stringify(token));
+        pushtoken.create(token, function(err, model) {
+            console.log("create push token result " + err);
+            if (model) {
+                console.log("token result " + JSON.stringify(model));
+            }
+        });
+
+                }
+            });
+        });
         next();
     });
     AmUser.beforeRemote('login', function(ctx, affectedModelInstance, next) {
@@ -44,4 +65,45 @@ AmUser.observe('access', function updateTimestamp(ctx, next) {
         console.log("model : " + JSON.stringify(affectedModelInstance));
         next();
     });
+
+    // remote methods
+    AmUser.subscribePushToken = function(data, cb) {
+        //var request = require('request');
+        console.log("subscribePushToken " + JSON.stringify(data));
+        var r = require('request-json');
+        /*
+        request.post('http://localhost:8000/', function(err, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log(body);
+        });
+        */
+        var client = r.createClient('http://localhost:8000/subscribe');
+        client.post('subscribe', data, function(err, res, body) {
+                console.log("res " + JSON.stringify(res));
+                console.log("body " + JSON.stringify(body));
+            if (res.statusCode == 200) {
+                cb(null, body);
+            } else {
+                console.log("err " + err);
+                var err = new Error();
+                err.status = 400;
+                err.message = body;
+                cb(err);
+            } 
+        }); 
+        
+    };
+    AmUser.remoteMethod( 
+        'subscribePushToken',
+        {
+            accepts: {arg: 'data', 
+                      type: 'push', 
+                      required: true, 
+                      description: 'data format in json: { "user" : "aaa", "type" : "android", "token" : "aaa"}',
+                       http: {source: 'body'}},
+            returns: {arg: 'pushtoken', type: 'push', http: {source: 'body'}},
+            errors: { code: 400, message: 'error'}
+        }
+
+    );
 };
