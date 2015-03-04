@@ -32,27 +32,28 @@ AmUser.observe('access', function updateTimestamp(ctx, next) {
   }
   next();
 });
-    AmUser.afterRemote('login', function(ctx, affectedModelInstance, next) {
+    AmUser.afterRemote('login', function(ctx, amUser, next) {
         console.log("AmUser after Remote login " + JSON.stringify(ctx.result));
         console.log("token: " + JSON.stringify(ctx.req.body));
-        console.log("model : " + JSON.stringify(affectedModelInstance));
+        console.log("model : " + JSON.stringify(amUser));
+        //amUser.hasMany(pushtoken, {as: 'pushtokens', foreignKey: 'amUserId'});
+
         AmUser.getApp(function(err, app) {
             var models = app.models();
             models.forEach(function(Model) {
                 console.log(Model.modelName);
                 if (Model.modelName === 'pushtoken') {
                     var pushtoken = Model;
-        var token = {
-            token: ctx.req.body.token,
-            amUserId: affectedModelInstance.userId}
-        console.log("token to add " + JSON.stringify(token));
-        pushtoken.create(token, function(err, model) {
-            console.log("create push token result " + err);
-            if (model) {
-                console.log("token result " + JSON.stringify(model));
-            }
-        });
-
+                    var token = {
+                    token: ctx.req.body.token,
+                    amUserId: amUser.userId}
+                    console.log("token to add " + JSON.stringify(token));
+                    pushtoken.create(token, function(err, model) {
+                        console.log("create push token result " + err);
+                        if (model) {
+                            console.log("token result " + JSON.stringify(model));
+                        }
+                    });
                 }
             });
         });

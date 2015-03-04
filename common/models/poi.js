@@ -70,4 +70,5 @@ Poi.observe('before save', function updateTimestamp(ctx, next) {
             returns: { arg: 'echo', type: 'string'}
         }
     );
+
 };

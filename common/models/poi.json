@@ -21,7 +21,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "amuser": {
+      "type": "belongsTo",
+      "model": "AmUser",
+      "foreignKey": "amUserId"
+    }
+  },
   "acls": [],
   "methods": []
 }

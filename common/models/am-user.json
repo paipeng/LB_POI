@@ -9,12 +9,12 @@
     "pushtokens": {
       "type": "hasMany",
       "model": "pushtoken",
-      "foreignKey": ""
+      "foreignKey": "amUserId"
     },
     "pois": {
       "type": "hasMany",
       "model": "poi",
-      "foreignKey": ""
+      "foreignKey": "amUserId"
     }
   },
   "acls": [],

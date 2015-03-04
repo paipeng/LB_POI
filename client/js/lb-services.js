@@ -1,6 +1,6 @@
 (function(window, angular, undefined) {'use strict';
 
-var urlBase = "http://shared.canobus.com:8088/api";
+var urlBase = "/api";
 var authHeader = 'authorization';
 
 /**
@@ -2045,6 +2045,12 @@ module.factory(
       { 'id': '@id' },
       {
 
+        // INTERNAL. Use Poi.amuser() instead.
+        "prototype$__get__amuser": {
+          url: urlBase + "/pois/:id/amuser",
+          method: "GET"
+        },
+
         /**
          * @ngdoc method
          * @name lbServices.Poi#create
@@ -2603,6 +2609,42 @@ module.factory(
     */
     R.modelName = "Poi";
 
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Poi#amuser
+         * @methodOf lbServices.Poi
+         *
+         * @description
+         *
+         * Fetches belongsTo relation amuser
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `AmUser` object.)
+         * </em>
+         */
+        R.amuser = function() {
+          var TargetResource = $injector.get("AmUser");
+          var action = TargetResource["::get::poi::amuser"];
+          return action.apply(R, arguments);
+        };
 
     return R;
   }]);
@@ -3506,6 +3548,18 @@ module.factory(
         "subscribePushToken": {
           url: urlBase + "/AmUsers/subscribePushToken",
           method: "POST"
+        },
+
+        // INTERNAL. Use Poi.amuser() instead.
+        "::get::poi::amuser": {
+          url: urlBase + "/pois/:id/amuser",
+          method: "GET"
+        },
+
+        // INTERNAL. Use Pushtoken.amuser() instead.
+        "::get::pushtoken::amuser": {
+          url: urlBase + "/PushToken/:id/amuser",
+          method: "GET"
         },
 
         /**
@@ -4654,6 +4708,12 @@ module.factory(
       { 'id': '@id' },
       {
 
+        // INTERNAL. Use Pushtoken.amuser() instead.
+        "prototype$__get__amuser": {
+          url: urlBase + "/PushToken/:id/amuser",
+          method: "GET"
+        },
+
         /**
          * @ngdoc method
          * @name lbServices.Pushtoken#create
@@ -5173,6 +5233,42 @@ module.factory(
     */
     R.modelName = "Pushtoken";
 
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Pushtoken#amuser
+         * @methodOf lbServices.Pushtoken
+         *
+         * @description
+         *
+         * Fetches belongsTo relation amuser
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - PersistedModel id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `AmUser` object.)
+         * </em>
+         */
+        R.amuser = function() {
+          var TargetResource = $injector.get("AmUser");
+          var action = TargetResource["::get::pushtoken::amuser"];
+          return action.apply(R, arguments);
+        };
 
     return R;
   }]);
