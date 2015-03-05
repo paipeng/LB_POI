@@ -23,13 +23,12 @@ function initHttp(path, push_json) {
         return optionspost;
 }
 
-function sendPush(users, push_json) {
+function sendPush(users, push) {
+    if (users) {
+        push.users = users;
+    }
     console.log("sendPush to " + JSON.stringify(users));
-}
-
-
-module.exports = {
-    sendPushToAll: function(push_json) {
+        var push_json = JSON.stringify(push);
         var optionspost = initHttp('/send', push_json);
         var httpRequest = http.request(optionspost, function(response) {
             console.log('STATUS: ' + response.statusCode);
@@ -45,14 +44,21 @@ module.exports = {
         httpRequest.on('error', function(err) {
             console.err("http post error " + JSON.stringify("err"));
         });
+
+}
+
+
+module.exports = {
+    sendPushToAll: function(push) {
+        sendPush(null, push);
     },
 
     sendPushToUsers: function(users, push_json) {
 
     },
 
-    sendPushExceptMe: function(me, push_json) {
-        console.log("sendPushExceptMe " + me + " push_json " + push_json);
+    sendPushExceptMe: function(me, push) {
+        console.log("sendPushExceptMe " + me + " push_json " + JSON.stringify(push));
         var optionspost = initHttp('/users', null);
         var httpRequest = http.request(optionspost, function(response) {
             console.log('STATUS: ' + response.statusCode);
@@ -71,7 +77,7 @@ module.exports = {
                     }
                 }
                 if (send_to.length > 0) {
-                    sendPush(send_to, push_json);
+                    sendPush(send_to, push);
                 } else {
                     console.log("there is no available token for sending");
                 }

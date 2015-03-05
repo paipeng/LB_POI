@@ -26,6 +26,11 @@
       "type": "belongsTo",
       "model": "AmUser",
       "foreignKey": "amUserId"
+    },
+    "photo": {
+      "type": "belongsTo",
+      "model": "photo",
+      "foreignKey": ""
     }
   },
   "acls": [],

@@ -15,6 +15,11 @@
       "type": "hasMany",
       "model": "poi",
       "foreignKey": "amUserId"
+    },
+    "photos": {
+      "type": "hasMany",
+      "model": "photo",
+      "foreignKey": ""
     }
   },
   "acls": [],

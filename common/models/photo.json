@@ -18,7 +18,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "pois": {
+      "type": "hasOne",
+      "model": "poi",
+      "foreignKey": ""
+    },
+    "amUser": {
+      "type": "belongsTo",
+      "model": "AmUser",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": []
 }

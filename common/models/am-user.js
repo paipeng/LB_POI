@@ -45,8 +45,10 @@ AmUser.observe('access', function updateTimestamp(ctx, next) {
                 if (Model.modelName === 'pushtoken') {
                     var pushtoken = Model;
                     var token = {
-                    token: ctx.req.body.token,
-                    amUserId: amUser.userId}
+                        token: ctx.req.body.token,
+                        amUserId: amUser.userId,
+                        type: ctx.req.body.type
+                    };
                     console.log("token to add " + JSON.stringify(token));
                     pushtoken.create(token, function(err, model) {
                         console.log("create push token result " + err);

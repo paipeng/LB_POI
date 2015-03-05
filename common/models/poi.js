@@ -32,7 +32,6 @@ Poi.observe('before save', function updateTimestamp(ctx, next) {
                 ctx.where);
         }
         var pushServer = require('../../server/push');
-        //pushServer.getPushUsers();
 
         var push = {};
         //push.users = {};
@@ -41,7 +40,7 @@ Poi.observe('before save', function updateTimestamp(ctx, next) {
         push.android.data = {};
         push.android.data.message = "New POI " + this.name;
         push.android.data.sound= "alert.mp3";
-        push.android.data.push = this;
+        push.android.data.push = ctx.instance;
 
         push.ios = {};
         push.ios.badge = 0;
@@ -51,10 +50,8 @@ Poi.observe('before save', function updateTimestamp(ctx, next) {
         push.ios.payload.push = push.android.data.push;
 
 
-        //var push_json = JSON.stringify(push);
-        //console.log(" push_json " + push_json);
         //pushServer.sendPushToAll(push_json);
-        //pushServer.sendPushExceptMe(this.token, push_json);
+        pushServer.sendPushExceptMe(ctx.instance.token, push);
         next();
     });
 

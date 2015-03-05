@@ -47,6 +47,14 @@ var acls = [
         permission: "ALLOW",
         principalType: "ROLE",
         principalId: "$authenticated"
+      },
+      {
+        model: "AmUser",
+        property: "subscribePushToken",
+        accessType: "*",
+        permission: "ALLOW",
+        principalType: "ROLE",
+        principalId: "$authenticated"
       }
     ];
 
