@@ -49,5 +49,17 @@
   "pushtoken": {
     "dataSource": "mysql",
     "public": true
+  },
+  "newModel": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "Test": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "Am": {
+    "dataSource": "mysql",
+    "public": true
   }
 }

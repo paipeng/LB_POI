@@ -1,0 +1,21 @@
+{
+  "name": "newModel",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "properties": {
+    "propertyName66": {
+      "type": "string"
+    },
+    "propertyName80": {
+      "type": "string"
+    },
+    "propertyName32": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}
